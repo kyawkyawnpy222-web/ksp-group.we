@@ -1,0 +1,417 @@
+
+<!DOCTYPE html>
+<html lang="my" data-theme="color">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6500d8">
+  <title>Kyaw Swar Phyo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <section id="loginScreen" class="login-screen">
+    <div class="login-card glass">
+      <div class="brand-logo">KSP</div>
+      <h2>Kyaw Swar Phyo နှင့် ညီကိုများအဖွဲ့</h2>
+      <p class="brand-subtitle">ဘောက်စက်/အခန်းနား အငှားလိုက် ဝန်ဆောင်မှု</p>
+
+      <form id="loginForm">
+        <label for="loginUsername">Username</label>
+        <input id="loginUsername" type="text" placeholder="Username ရိုက်ထည့်ပါ" autocomplete="username" required>
+
+        <label for="loginPassword">Password</label>
+        <div class="password-wrap">
+          <input id="loginPassword" type="password" placeholder="Password ရိုက်ထည့်ပါ" autocomplete="current-password" required>
+          <button id="togglePassword" type="button" class="eye-btn">👁</button>
+        </div>
+
+        <button class="primary-btn" type="submit">LOGIN</button>
+        <p id="loginMessage" class="message" role="alert"></p>
+      </form>
+    </div>
+  </section>
+
+  <div id="appScreen" class="app-screen hidden">
+
+    <header class="topbar glass">
+      <div class="top-brand">
+        <div class="mini-logo">KSP</div>
+        <div>
+          <strong>Kyaw Swar Phyo နှင့် ညီကိုများအဖွဲ့</strong>
+          <small>ဘောက်စက်အငှားဝန်ဆောင်မှု</small>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button id="themeBtn" class="icon-btn" type="button">🎨</button>
+        <button id="logoutBtn" class="icon-btn" type="button">↪</button>
+      </div>
+    </header>
+
+    <div id="themePanel" class="theme-panel glass hidden">
+      <span>အရောင်ပုံစံ ရွေးချယ်ရန်</span>
+      <div class="theme-options">
+        <button data-theme-choice="light" type="button">☀️ Light</button>
+        <button data-theme-choice="dark" type="button">🌙 Dark</button>
+        <button data-theme-choice="color" type="button">🎨 Color</button>
+      </div>
+    </div>
+
+    <main id="page-home" class="page active">
+      <section class="welcome-card glass">
+        <div>
+          <small>မင်္ဂလာပါ</small>
+          <h2>KSP မှ ကြိုဆိုပါတယ်</h2>
+          <p>လုပ်ငန်းစာရင်းများကို စီမံခန့်ခွဲပါ။</p>
+        </div>
+        <span class="welcome-icon">🗒️</span>
+      </section>
+
+      <section class="summary-grid">
+        <article class="summary-card glass">
+          <span>🧾 ဘောင်ချာအရေအတွက်</span>
+          <strong id="totalVouchers">0</strong>
+          <small>သိမ်းထားသော ဘောင်ချာစုစုပေါင်း</small>
+        </article>
+
+        <article class="summary-card glass">
+          <span>ဝင်ငွေ</span>
+          <strong id="totalIncome">0</strong>
+          <small>ကျပ်</small>
+        </article>
+
+        <article class="summary-card glass">
+          <span>အသုံးစရိတ်</span>
+          <strong id="totalExpense">0</strong>
+          <small>ကျပ်</small>
+        </article>
+
+        <article class="summary-card glass">
+          <span>လက်ကျန်</span>
+          <strong id="totalBalance">0</strong>
+          <small>ကျပ်</small>
+        </article>
+      </section>
+
+      <section class="quick-grid">
+        <button class="quick-card glass" data-page="voucher" type="button"><span>🧾</span>ဘောင်ချာအသစ်</button>
+        <button class="quick-card glass" data-page="history" type="button"><span>📚</span>ဘောင်ချာမှတ်တမ်း</button>
+        <button class="quick-card glass" data-page="events" type="button"><span>🎉</span>အခန်းအနားစာရင်း</button>
+        <button class="quick-card glass" data-page="daily-report" type="button"><span>📊</span>အခန်းနား List</button>
+        <button class="quick-card glass" data-page="calendar" type="button"><span>📅</span>ပြက္ခဒိန်</button>
+      </section>
+    </main>
+
+    <main id="page-daily-report" class="page">
+      <div class="page-heading">
+        <h2>📊 အခန်းနား List</h2>
+        <p>အခန်းအနားစာရင်းထဲမှ ရက်အလိုက် ဝင်ငွေ၊ အသုံးစရိတ်နှင့် လက်ကျန်ကို ကြည့်နိုင်ပါသည်။ ဘောင်ချာငွေများ မပါဝင်ပါ။</p>
+      </div>
+
+      <button class="secondary-btn report-back-btn" data-page="home" type="button">← ပင်မစာမျက်နှာသို့ ပြန်သွားမည်</button>
+
+      <section id="dailyReportList" class="record-list daily-report-list"></section>
+
+      <section id="dailyReportDetail" class="daily-detail glass hidden">
+        <div class="daily-detail-heading">
+          <h3>📅 ရွေးချယ်ထားသောနေ့၏ စာရင်း</h3>
+          <strong id="dailyDetailDate">--</strong>
+        </div>
+
+        <div class="daily-total-grid">
+          <article class="daily-total-card income-total">
+            <span>ဝင်ငွေ</span>
+            <strong id="dailyIncome">0 ကျပ်</strong>
+          </article>
+
+          <article class="daily-total-card expense-total">
+            <span>အသုံးစရိတ်</span>
+            <strong id="dailyExpense">0 ကျပ်</strong>
+          </article>
+
+          <article class="daily-total-card balance-total">
+            <span>လက်ကျန်</span>
+            <strong id="dailyBalance">0 ကျပ်</strong>
+          </article>
+        </div>
+
+        <h3 class="daily-section-title">🎉 အခန်းအနားစာရင်းများ</h3>
+        <div id="dailyEventDetails"></div>
+      </section>
+    </main>
+
+    <main id="page-voucher" class="page">
+      <div class="page-heading">
+        <h2>🧾 ဘောင်ချာအသစ်</h2>
+        <p>ငှားရမ်းမှုအချက်အလက် ဖြည့်ပါ။</p>
+      </div>
+
+      <form id="voucherForm" class="form-card glass">
+        <h3>ဘောင်ချာအချက်အလက်</h3>
+
+        <label for="voucherDate">ရက်စွဲနှင့် အချိန်</label>
+        <input id="voucherDate" type="datetime-local" required>
+
+        <label for="voucherEventDate">ပွဲစမည့်ရက်စွဲ</label>
+        <input id="voucherEventDate" type="date">
+
+        <label for="voucherNumber">ဘောင်ချာနံပါတ်</label>
+        <input id="voucherNumber" type="text" readonly>
+
+        <label for="renterName">ငှားသူအမည်</label>
+        <input id="renterName" type="text" required>
+
+        <label for="renterPhone">ငှားသူဖုန်းနံပါတ်</label>
+        <input id="renterPhone" type="tel" inputmode="tel">
+
+        <label for="eventName">ပွဲအမည်</label>
+        <input id="eventName" type="text">
+
+        <label for="eventAddress">ပွဲကျင်းပမည့်နေရာ</label>
+        <input id="eventAddress" type="text">
+
+        <label for="eventPerson">ပွဲလိုက်သူအမည်</label>
+        <input id="eventPerson" type="text">
+
+        <label for="eventPhone">ပွဲလိုက်သူဖုန်းနံပါတ်</label>
+        <input id="eventPhone" type="tel" inputmode="tel">
+
+        <label for="voucherDescription">ငှားရမ်းသည့်ပစ္စည်း / ဝန်ဆောင်မှု</label>
+        <textarea id="voucherDescription" rows="3"></textarea>
+
+        <h3>ငွေစာရင်း</h3>
+
+        <label for="voucherAmount">စုစုပေါင်းငွေ (ကျပ်)</label>
+        <input id="voucherAmount" type="number" min="0" step="1" required>
+
+        <label for="voucherDeposit">စရန်ငွေ (ကျပ်)</label>
+        <input id="voucherDeposit" type="number" min="0" step="1" value="0">
+
+        <div class="balance-box glass">
+          <span>ကျန်ငွေ</span>
+          <strong id="voucherRemaining">0 ကျပ်</strong>
+        </div>
+
+        <label for="voucherNote">မှတ်ချက်</label>
+        <textarea id="voucherNote" rows="3"></textarea>
+
+        <button type="submit" class="primary-btn">💾 ဘောင်ချာသိမ်းမည်</button>
+        <button type="reset" class="secondary-btn">ပြန်ရှင်းမည်</button>
+        <p id="voucherMessage" class="message"></p>
+      </form>
+    </main>
+
+    <main id="page-history" class="page">
+      <div class="page-heading">
+        <h2>📚 ဘောင်ချာမှတ်တမ်း</h2>
+        <p>ရက်စွဲ၊ အချိန်၊ အမည်၊ ဖုန်းနံပါတ်တို့ဖြင့် ရှာဖွေနိုင်ပါသည်။</p>
+      </div>
+
+      <section class="search-card glass">
+        <label for="voucherSearch">အမည် / ဘောင်ချာနံပါတ် / ဖုန်းနံပါတ်</label>
+        <input id="voucherSearch" type="search" placeholder="ရှာဖွေရန် ရိုက်ထည့်ပါ">
+
+        <label for="historyStartDate">စတင်ရက်စွဲနှင့် အချိန်</label>
+        <input id="historyStartDate" type="datetime-local">
+
+        <label for="historyEndDate">ဆုံးရက်စွဲနှင့် အချိန်</label>
+        <input id="historyEndDate" type="datetime-local">
+
+        <button id="clearVoucherSearch" class="secondary-btn" type="button">ရှာဖွေမှုရှင်းရန်</button>
+      </section>
+
+      <p class="record-count">တွေ့ရှိသော ဘောင်ချာ <strong id="voucherRecordCount">0</strong></p>
+      <section id="voucherHistoryList" class="record-list"></section>
+    </main>
+
+    <main id="page-events" class="page">
+      <div class="page-heading">
+        <h2>🎉 အခန်းအနားစာရင်း</h2>
+        <p>ပွဲတစ်ပွဲချင်းစီ၏ ဝင်ငွေ၊ အသုံးစရိတ် မှတ်တမ်းတင်ပါ။</p>
+      </div>
+
+      <form id="eventForm" class="form-card glass">
+        <label for="accountEventName">ပွဲအမည်</label>
+        <input id="accountEventName" required>
+
+        <label for="accountEventDate">ရက်စွဲ</label>
+        <input id="accountEventDate" type="date" required>
+
+        <h3>ဝင်ငွေ</h3>
+        <label for="eventIncome">ဝင်ငွေ (ကျပ်)</label>
+        <input id="eventIncome" type="number" min="0" value="0">
+
+        <h3>အသုံးစရိတ်</h3>
+        <label for="otherExpense">အခြားအသုံးစရိတ် (ကျပ်)</label>
+        <input id="otherExpense" type="number" min="0" value="0">
+
+        <label for="carFare">ကားခ (ကျပ်)</label>
+        <input id="carFare" type="number" min="0" value="0">
+
+        <label for="threeWheelFare">သုံးဘီးခ (ကျပ်)</label>
+        <input id="threeWheelFare" type="number" min="0" value="0">
+
+        <label for="assistantCount">ပွဲလိုက်သူ / အကူအရေအတွက်</label>
+        <input id="assistantCount" type="number" min="0" value="0">
+
+        <label for="assistantPay">အကူလုပ်အားခ (ကျပ်)</label>
+        <input id="assistantPay" type="number" min="0" value="0">
+
+        <label for="fuelQuantity">ဆီပမာဏ (လီတာ / ပုလင်း)</label>
+        <input id="fuelQuantity" type="number" min="0" step="0.1" value="0">
+
+        <label for="fuelCost">ဆီဖိုး (ကျပ်)</label>
+        <input id="fuelCost" type="number" min="0" value="0">
+
+        <h3>လိုအပ်လို့ ဝယ်ယူသုံးစွဲသော ပစ္စည်းများ</h3>
+        <p class="form-hint">ပစ္စည်းတစ်မျိုးချင်းစီကို ထည့်ပြီး စာရင်းထဲသို့ ပေါင်းထည့်ပါ။</p>
+
+        <div class="purchase-entry">
+          <label for="purchaseItemName">ပစ္စည်းအမည်</label>
+          <input id="purchaseItemName" type="text" placeholder="ဥပမာ - ရေသန့်၊ ကြိုး၊ မီးလုံး">
+
+          <label for="purchaseItemQuantity">အရေအတွက်</label>
+          <input id="purchaseItemQuantity" type="number" min="0" step="0.1" value="1">
+
+          <label for="purchaseItemCost">ဝယ်ယူကုန်ကျငွေ (ကျပ်)</label>
+          <input id="purchaseItemCost" type="number" min="0" step="1" placeholder="ကုန်ကျငွေ">
+
+          <button id="addPurchaseItem" type="button" class="secondary-btn">＋ ပစ္စည်းစာရင်းထဲထည့်မည်</button>
+        </div>
+
+        <div id="purchaseItemsList" class="purchase-items-list"></div>
+        <div class="purchase-total glass">
+          <span>ပစ္စည်းဝယ်ယူမှု စုစုပေါင်း</span>
+          <strong id="purchaseItemsTotal">0 ကျပ်</strong>
+        </div>
+
+        <div class="balance-box glass">
+          <span>စုစုပေါင်းအသုံးစရိတ်ပြီးနောက် လက်ကျန်ငွေ</span>
+          <strong id="eventBalancePreview">0 ကျပ်</strong>
+        </div>
+
+        <button type="submit" class="primary-btn">💾 စာရင်းသိမ်းမည်</button>
+        <p id="eventMessage" class="message"></p>
+      </form>
+
+      <h3 class="section-title">သိမ်းထားသော စာရင်းများ</h3>
+      <section id="eventRecordList" class="record-list"></section>
+    </main>
+
+    <main id="page-notes" class="page">
+      <div class="page-heading"><h2>📒 မှတ်စုစာအုပ်</h2></div>
+      <form id="noteForm" class="form-card glass">
+        <label for="noteTitle">ခေါင်းစဉ်</label>
+        <input id="noteTitle" required>
+        <label for="noteContent">မှတ်စု</label>
+        <textarea id="noteContent" rows="6" required></textarea>
+        <button class="primary-btn" type="submit">💾 မှတ်စုသိမ်းမည်</button>
+        <p id="noteMessage" class="message"></p>
+      </form>
+      <section id="noteList" class="record-list"></section>
+    </main>
+
+    <main id="page-calendar" class="page">
+      <div class="page-heading"><h2>📅 ပြက္ခဒိန်</h2></div>
+
+      <section class="calendar-info-grid">
+        <div class="calendar-info glass"><span>မြန်မာရက်စွဲ</span><strong id="myanmarDate">မြန်မာရက်စွဲ</strong></div>
+        <div class="calendar-info glass"><span>မြန်မာလ</span><strong id="myanmarMonth">မြန်မာလ</strong></div>
+      </section>
+
+      <section class="today-card glass">
+        <span id="todayMyanmarText">ယနေ့</span>
+        <strong id="todayGregorianText">--</strong>
+      </section>
+
+      <section class="calendar-card glass">
+        <div class="calendar-header">
+          <button id="prevMonth" class="calendar-arrow" type="button">❮</button>
+          <div>
+            <strong id="calendarMonthTitle">MONTH YEAR</strong>
+            <small id="calendarMyanmarMonth">မြန်မာလ</small>
+          </div>
+          <button id="nextMonth" class="calendar-arrow" type="button">❯</button>
+        </div>
+
+        <div class="calendar-weekdays">
+          <div class="weekend">SUN<small>တနင်္ဂနွေ</small></div>
+          <div>MON<small>တနင်္လာ</small></div>
+          <div>TUE<small>အင်္ဂါ</small></div>
+          <div>WED<small>ဗုဒ္ဓဟူး</small></div>
+          <div>THU<small>ကြာသပတေး</small></div>
+          <div>FRI<small>သောကြာ</small></div>
+          <div class="weekend">SAT<small>စနေ</small></div>
+        </div>
+
+        <div id="calendarDays" class="calendar-days"></div>
+      </section>
+
+      <section class="selected-date-card glass">
+        <span>ရွေးချယ်ထားသောရက်စွဲ</span>
+        <strong id="selectedCalendarDate">--</strong>
+      </section>
+    </main>
+
+    <main id="page-calculator" class="page">
+      <div class="page-heading"><h2>🧮 ဂဏန်းတွက်စက်</h2></div>
+      <section class="calculator glass">
+        <input id="calculatorDisplay" value="0" readonly>
+        <div class="calculator-grid">
+          <button data-calc="clear" type="button">AC</button>
+          <button data-calc="delete" type="button">DEL</button>
+          <button data-calc="%" type="button">%</button>
+          <button data-calc="/" type="button">÷</button>
+          <button data-calc="7" type="button">7</button><button data-calc="8" type="button">8</button>
+          <button data-calc="9" type="button">9</button><button data-calc="*" type="button">×</button>
+          <button data-calc="4" type="button">4</button><button data-calc="5" type="button">5</button>
+          <button data-calc="6" type="button">6</button><button data-calc="-" type="button">−</button>
+          <button data-calc="1" type="button">1</button><button data-calc="2" type="button">2</button>
+          <button data-calc="3" type="button">3</button><button data-calc="+" type="button">+</button>
+          <button data-calc="0" type="button">0</button><button data-calc="." type="button">.</button>
+          <button data-calc="=" class="calc-equal" type="button">=</button>
+        </div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav glass">
+      <button class="nav-btn active" data-page="home" type="button"><span>⌂</span><small>ပင်မ</small></button>
+      <button class="nav-btn" data-page="voucher" type="button"><span>🧾</span><small>ဘောင်ချာ</small></button>
+      <button class="nav-btn" data-page="history" type="button"><span>📚</span><small>မှတ်တမ်း</small></button>
+      <button class="nav-btn" data-page="events" type="button"><span>🎉</span><small>အခန်းအနား</small></button>
+      <button class="nav-btn" data-page="notes" type="button"><span>📒</span><small>မှတ်စု</small></button>
+      <button class="nav-btn" data-page="calendar" type="button"><span>📅</span><small>ပြက္ခဒိန်</small></button>
+      <button class="nav-btn" data-page="calculator" type="button"><span>🧮</span><small>တွက်စက်</small></button>
+    </nav>
+  </div>
+
+  <div id="voucherModal" class="modal hidden">
+    <div class="modal-backdrop" data-close-modal="true"></div>
+    <div class="modal-card glass">
+      <div class="modal-heading">
+        <h3>ဘောင်ချာအသေးစိတ်</h3>
+        <button id="closeVoucherModal" class="icon-btn" type="button">✕</button>
+      </div>
+      <div id="voucherDetailContent"></div>
+    </div>
+  </div>
+
+  <div id="confirmModal" class="hzt-confirm-overlay hidden" role="dialog" aria-modal="true">
+    <div class="hzt-confirm-card glass">
+      <div class="hzt-confirm-icon">⚠️</div>
+      <h3 id="confirmTitle">ဖျက်မှာ သေချာပါသလား။</h3>
+      <p id="confirmText">ဒီစာရင်းကို ဖျက်လိုပါသလား။</p>
+      <div class="hzt-confirm-actions">
+        <button id="confirmCancel" type="button" class="secondary-btn">မဖျက်ဘူး</button>
+        <button id="confirmDelete" type="button" class="delete-btn">ဖျက်မယ်</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Appwrite Web SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/appwrite@29.2.0"></script>
+
+  <!-- KSP Application -->
+  <script src="app.js"></script>
+</body>
+</html>
